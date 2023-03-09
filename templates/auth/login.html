@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block custom_style %}
+<link rel="stylesheet" href="{{ url_for('static',filename='css/login.css') }}">
+{% endblock %}
+
+{% block body %}    
+<main class="form-signin w-100 m-auto">
+    <form action="/login" method="POST">
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <br/>
+          {% for message in messages %}
+            <div class="alert alert-primary alert-dismissible" role="alert">
+              <strong>{{ message }}</strong>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+      <div class="mb-3 m-auto text-center">
+          <img class="m-auto w-50" src="{{ url_for('static',filename='images/fastradelogo.png') }}" alt="">
+      </div>
+      <h1 class="h3 mb-3 fw-normal">Log in</h1>
+  
+      <div class="form-floating">
+        <input type="text" class="form-control" id="username" name="username" placeholder="RonnieColeman">
+        <label for="username">Username</label>
+      </div>
+      <div class="form-floating">
+        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+        <label for="password">Password</label>
+      </div>
+  
+      <div class="checkbox mb-3">
+        <label>
+          <input type="checkbox" value="remember-me"> Remember me
+        </label>
+      </div>
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
+      <p class="mt-5 mb-3 text-muted">&copy; yeahhh buddy!</p>
+    </form>
+  </main>
+
+{% endblock %}

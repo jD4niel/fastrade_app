@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block custom_style %}
+<link rel="stylesheet" href="{{ url_for('static',filename='css/fast_trade.css') }}">
+{% endblock %}
+
+{% block body %}    
+<main class="form-signin w-100 m-auto">
+  
+  <h1>TRADE DONE!!!</h1>
+  {{ request  }}
+  </main>
+  
+  {% endblock %}
+
+
+{% block custom_script %}
+
+  {% endblock %}

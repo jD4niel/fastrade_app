@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block custom_style %}
+<link rel="stylesheet" href="{{ url_for('static',filename='css/fast_trade.css') }}">
+{% endblock %}
+
+{% block body %}    
+<main class="form-signin w-100 m-auto">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- <a class="navbar-brand" href="#">My Website</a> -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <br/>
+      {% for message in messages %}
+        <div class="alert alert-primary alert-dismissible" role="alert">
+          <strong>{{ message }}</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  
+  <div class="mb-3 m-auto text-center">
+  <img class="m-auto w-50" src="{{ url_for('static',filename='images/fastradelogo.png') }}" alt="">
+  </div>
+  
+  <h3>MAKE ORDER</h3>
+  <hr/>
+  <form action="/fast_trade/action" method="POST" class="row" style="padding-top: 20px;">
+    <div class="form-group">
+      <div class="input-group">
+        <div class="col-8">
+          <select name="symbol" id="symbol" class="form-control">
+            {% for symbol in symbols %}
+            <option value="{{ symbol }}">{{ symbol }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <span class="input-group-btn col">
+            <button type="button" id="type-trade" class="btn btn-md btn-success form-control" onclick="toggleButton()">LONG</button>
+            <input type="hidden" name="type_order" id="type_order" value="LONG" readonly/>
+        </span>
+      </div>
+    </div>
+
+      <div class="form-group">
+        <label for="qty_to_order">Qty to Order:</label>
+        <input type="number" class="form-control" id="qty_to_order" name="qty_to_order" value="50">
+        <input type="range" class="form-range mt-2" id="qty_to_order_range"  min="1" max="100" value="50" onchange="updateQty()">
+      </div>
+        
+      <div class="input-group">
+        <div class="form-group col">
+          <label for="expected_profit">Expected Profit</label>
+          <input type="number" class="form-control" id="expected_profit" name="expected_profit" value="50">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label" for="close_order">Close order</label>
+          <input type="checkbox" class="form-check m-auto" id="close_order" name="close_order" style="width: 30px;">
+        </div>
+      </div>
+          
+
+      <div class="input-group">
+        <div class="form-group col">
+          <label for="up">Up</label>
+          <input type="number" class="form-control" id="up" name="up" value="90">
+        </div>
+        <div class="form-group col">
+          <label for="down">Down</label>
+          <input type="number" class="form-control" id="down" name="down" value="10">
+        </div>
+        <div class="form-group col">
+          <label for="sleep_duration" aria-label="Sleep duration">Sleep</label>
+          <input type="number" class="form-control" id="sleep_duration" name="sleep_duration" value="2">
+        </div>
+      </div>
+
+
+    <div class="w-100" style="padding-top:20px;">
+      <button class="w-100 btn btn-lg btn-primary" type="submit">GO FOR IT!</button>
+    </div>
+  </form>
+  </main>
+  
+  {% endblock %}
+
+
+{% block custom_script %}
+ <script>
+    var isLong = true;
+    function toggleButton() {
+        isLong = !isLong;
+        if (isLong) {
+            $('#type-trade').removeClass('btn-danger').addClass('btn-success').text('LONG');
+            $('input#type_order').val('LONG')
+          } else {
+            $('#type-trade').removeClass('btn-success').addClass('btn-danger').text('SHORT');
+            $('input#type_order').val('SHORT')
+        }
+    }
+
+    function updateQty() {
+      var rangeValue = document.getElementById("qty_to_order_range").value;
+      document.getElementById("qty_to_order").value = rangeValue;
+    }
+</script>
+  {% endblock %}
